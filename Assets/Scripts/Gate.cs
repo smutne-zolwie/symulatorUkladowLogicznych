@@ -35,13 +35,13 @@ public class Gate : MonoBehaviour
                 //dla bramki koñcowej potrzebne s¹ znaczniki ¿eby wykonywa³o operacje na mniejszej liczbie bramek, 
             }
         }
-        print(numberOfOperations); 
-        for(int i = 0; i < input.Count; i++)
+        print(numberOfOperations);
+        int ee = 0;
+        for (int i = 0; i < input.Count; i++)
         {
             //operacje na booleanach
             //numberOfOperatiuons to index ostatniej wykonanej operacji
             //trzeba sprawdziæ czy to nie jest te¿ ostatnia operacja
-            int ee = 0;                        
             //b³¹d podczas przypisywania          
             if (operationsT[ee].Contains("&") && ee < numberOfOperations)
             {
