@@ -8,12 +8,20 @@ public class Gate : MonoBehaviour
     public List<bool> input = new List<bool>();
     public string operations = null;
     public string operations1 = null;
+    public string gName;
+    public Color color;
     public List<bool> scores = new List<bool>();
     Button bb;
     // Start is called before the first frame update
+
     void Start()
     {  
         
+    }
+    Color SetRandomColor()
+    {
+        Color color = new Color(Random.Range(0, 256), Random.Range(0, 256), Random.Range(0, 256));        
+        return color;
     }
     List<bool> Calculate(List<bool> input, string operations)
     {
@@ -29,10 +37,10 @@ public class Gate : MonoBehaviour
         print(input.Count);
         foreach(string operation in operationsT)
         {
-            if (operation.Contains("&") && numberOfOperations>(0.5f * input.Count))// liczba operacji nie mo¿e byæ mniejsza od po³owy inputu gdy¿ to nie mo¿liwe po co robiæ input jak siê z niego nie skorzysta
+            if (operation.Contains("&") && numberOfOperations>(0.5f * input.Count))// liczba operacji nie moï¿½e byï¿½ mniejsza od poï¿½owy inputu gdyï¿½ to nie moï¿½liwe po co robiï¿½ input jak siï¿½ z niego nie skorzysta
             {
-                numberOfOperations--; // podstawowo jest to liczba inputu, operacja & potrzebuje dwóch inputów a ! jeden input wiêc ka¿de & zmniejszy liczbê mo¿liwych operacji o 1 a ! nic nie zmieni
-                //dla bramki koñcowej potrzebne s¹ znaczniki ¿eby wykonywa³o operacje na mniejszej liczbie bramek, 
+                numberOfOperations--; // podstawowo jest to liczba inputu, operacja & potrzebuje dwï¿½ch inputï¿½w a ! jeden input wiÄ™c kaÅ¼de & zmniejszy liczbï¿½ moï¿½liwych operacji o 1 a ! nic nie zmieni
+                //dla bramki koï¿½cowej potrzebne sï¿½ znaczniki ï¿½eby wykonywaï¿½o operacje na mniejszej liczbie bramek, 
             }
         }
         print(numberOfOperations);
@@ -41,14 +49,14 @@ public class Gate : MonoBehaviour
         {
             //operacje na booleanach
             //numberOfOperatiuons to index ostatniej wykonanej operacji
-            //trzeba sprawdziæ czy to nie jest te¿ ostatnia operacja
-            //b³¹d podczas przypisywania          
+            //trzeba sprawdziï¿½ czy to nie jest teï¿½ ostatnia operacja
+            //bï¿½ï¿½d podczas przypisywania          
             if (operationsT[ee].Contains("&") && ee < numberOfOperations)
             {
                 result.Add(input[ee]);
                 int ii = i + 1;
-                print("ii równe: " + ii);
-                print("i równe: " + i);
+                print("ii rï¿½wne: " + ii);
+                print("i rï¿½wne: " + i);
                 result[ee] = input[i] & input[ii];
                 print(input[i] +" "+ input[ii] +" "+ result[ee]);
                 i++;
@@ -63,7 +71,7 @@ public class Gate : MonoBehaviour
                 result[ee] = !result[ee];
                 ee++;
             }            
-            print("i równe po:" + i);
+            print("i rï¿½wne po:" + i);
         }
         foreach (bool resulte in result)
         {
