@@ -10,14 +10,16 @@ public class Gate : MonoBehaviour
     public string operations1 = null;
     public string gName;
     public Color color;
+    Transform tr;
+    Vector3 lastPos;
     public List<bool> scores = new List<bool>();
     Button bb;
     // Start is called before the first frame update
 
     void Start()
-    {  
+    {
         
-    }
+    }    
     Color SetRandomColor()
     {
         Color color = new Color(Random.Range(0, 256), Random.Range(0, 256), Random.Range(0, 256));        
