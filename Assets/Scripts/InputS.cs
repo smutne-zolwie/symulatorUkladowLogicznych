@@ -2,18 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class InputS : MonoBehaviour
+
+public class InputS : MonoBehaviour, IPointerClickHandler
 {
     Toggle inputT;
-    Image inputI;
+    Image inputI;    
     public bool state;
+    GameManager gameManager;
     void Start()
-    {
+    {        
         inputI = gameObject.GetComponent<Image>();
         inputT = gameObject.GetComponent<Toggle>();
         state = inputT.isOn;
         inputT.onValueChanged.AddListener(Switching);
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
     
     void Switching(bool state)
@@ -25,9 +29,9 @@ public class InputS : MonoBehaviour
             inputI.color = Color.white;
         state = !state;
     }
-    // Update is called once per frame
-    void Update()
+    public void OnPointerClick(PointerEventData eventData)
     {
-        
+        //if (eventData.button == PointerEventData.InputButton.Right)
+            
     }
 }

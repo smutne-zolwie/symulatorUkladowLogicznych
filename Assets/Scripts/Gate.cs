@@ -98,7 +98,7 @@ public class Gate : MonoBehaviour
         */
     }
     void Update()
-    {
+    {        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             scores = Calculate(input, operations);
