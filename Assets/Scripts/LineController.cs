@@ -7,12 +7,6 @@ public class LineController : MonoBehaviour
     LineRenderer lr;    
     public Transform[] points = new Transform[4];
     public LineRenderer line;
-
-    void Awake()
-    {
-        lr = GetComponent<LineRenderer>();        
-    }
-
     public void SetUpLine(Transform[] points)
     {
         lr.positionCount = points.Length;
@@ -21,13 +15,14 @@ public class LineController : MonoBehaviour
 
     void Start()
     {
+        lr = gameObject.GetComponent<LineRenderer>();
         SetUpLine(points);
     }
 
     void Update()
     {               
         
-        if(points[0] != null && points[3] != null && points[1].position != lr.GetPosition(1) && points[2].position != lr.GetPosition(2))
+        if(points[0] != null && points[3] != null)
         {
             points[1].position = new Vector3((points[3].position.x + points[0].position.x) / 2, points[0].position.y, 0);
             points[2].position = new Vector3((points[3].position.x + points[0].position.x) / 2, points[3].position.y, 0);

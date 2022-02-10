@@ -31,7 +31,10 @@ public class InputS : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        //if (eventData.button == PointerEventData.InputButton.Right)
-            
+        if(eventData.button == PointerEventData.InputButton.Right)
+        {
+            gameManager.activeInput = gameObject;            
+            gameManager.OpenOptionsPanel(gameObject.transform.position);            
+        }            
     }
 }

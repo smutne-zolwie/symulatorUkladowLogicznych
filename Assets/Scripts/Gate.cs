@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System;
 
-public class Gate : MonoBehaviour
-{
+public class Gate : MonoBehaviour, IDragHandler
+{        
     public List<bool> input = new List<bool>();
     public string operations = null;
     public string operations1 = null;
@@ -14,15 +16,22 @@ public class Gate : MonoBehaviour
     Vector3 lastPos;
     public List<bool> scores = new List<bool>();
     Button bb;
-    // Start is called before the first frame update
-
+    public Action OnDragEvent;
+    public void OnDrag(PointerEventData eventData)
+    {
+        OnDragEvent?.Invoke();
+    }
+    private void MoveGate()
+    {
+        gameObject.transform.position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
     void Start()
     {
-        
+        OnDragEvent += MoveGate;
     }    
     Color SetRandomColor()
     {
-        Color color = new Color(Random.Range(0, 256), Random.Range(0, 256), Random.Range(0, 256));        
+        Color color = new Color(UnityEngine.Random.Range(0, 256), UnityEngine.Random.Range(0, 256), UnityEngine.Random.Range(0, 256));        
         return color;
     }
     List<bool> Calculate(List<bool> input, string operations)
