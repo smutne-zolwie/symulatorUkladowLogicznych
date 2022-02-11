@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 
-public class InputS : MonoBehaviour, IPointerClickHandler
+public class InputS : MonoBehaviour
 {
     Toggle inputT;
     Image inputI;    
@@ -28,10 +28,5 @@ public class InputS : MonoBehaviour, IPointerClickHandler
         else
             inputI.color = Color.white;
         state = !state;
-    }
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        //if (eventData.button == PointerEventData.InputButton.Right)
-            
-    }
+    }    
 }

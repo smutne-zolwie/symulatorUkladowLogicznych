@@ -27,7 +27,7 @@ public class LineController : MonoBehaviour
     void Update()
     {               
         
-        if(points[0] != null && points[3] != null && points[1].position != lr.GetPosition(1) && points[2].position != lr.GetPosition(2))
+        if(points[0] != null && points[3] != null)
         {
             points[1].position = new Vector3((points[3].position.x + points[0].position.x) / 2, points[0].position.y, 0);
             points[2].position = new Vector3((points[3].position.x + points[0].position.x) / 2, points[3].position.y, 0);
