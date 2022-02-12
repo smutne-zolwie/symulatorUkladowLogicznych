@@ -66,12 +66,13 @@ public class GameManager : MonoBehaviour
         if(!newLineS.points[3].gameObject.CompareTag("Gate"))
         {
             //get 3 closest characters (to referencePos)
-            Transform nClosest = myTransforms.OrderBy(t => (t.position - coursor.position).sqrMagnitude).FirstOrDefault();
-            //or use .FirstOrDefault();  if you need just one            
+            Transform nClosest = myTransforms.OrderBy(t => (t.position - coursor.position).sqrMagnitude).FirstOrDefault();                       
             if (Vector3.Distance(coursor.position, nClosest.position) < 10)
             {
                 newLineS.points[3] = nClosest;
                 onLine = false;
+                newLineS.connected = true;
+                newLineS.GetElementsScript();
             }
         }        
     }

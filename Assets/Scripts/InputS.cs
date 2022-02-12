@@ -6,10 +6,11 @@ using UnityEngine.EventSystems;
 
 
 public class InputS : MonoBehaviour
-{
-    Toggle inputT;
-    Image inputI;    
-    public bool state;
+{    
+    public Toggle inputT;
+    Image inputI;
+    bool state;
+    Elements element;
     GameManager gameManager;
     void Start()
     {        
@@ -18,15 +19,18 @@ public class InputS : MonoBehaviour
         state = inputT.isOn;
         inputT.onValueChanged.AddListener(Switching);
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        element = GetComponent<Elements>();
+        element.state = inputT.isOn;
     }
     
     void Switching(bool state)
-    {
-        this.state = state;        
-        if (state)
+    {        
+        this.state = state;
+        if (state)        
             inputI.color = Color.red;
+                             
         else
-            inputI.color = Color.white;
-        state = !state;
+            inputI.color = Color.white;        
+        element.state = state;
     }    
 }

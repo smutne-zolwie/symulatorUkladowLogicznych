@@ -86,12 +86,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a9da056656fdd94eb85b1e0a755ccb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lr: {fileID: 0}
   points:
   - {fileID: 0}
   - {fileID: 3058775154818350174}
   - {fileID: 3058775156375289141}
   - {fileID: 0}
-  line: {fileID: 3058775155673085757}
+  connected: 0
 --- !u!120 &3058775155673085757
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -111,7 +112,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ad988071323d00c4394c5ced97e073a6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -155,8 +156,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 0, b: 0, a: 1}
-      key1: {r: 0, g: 0, b: 0, a: 1}
+      key0: {r: 1, g: 0, b: 0, a: 1}
+      key1: {r: 1, g: 0, b: 0, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}

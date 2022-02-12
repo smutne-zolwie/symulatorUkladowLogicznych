@@ -7,17 +7,32 @@ using UnityEngine.EventSystems;
 public class Elements : MonoBehaviour, IDragHandler, IPointerClickHandler
 {
     Action onDragA;
+    public Action lineA;
     float positionx;
     float positiony;
     GameManager gameManager;
+    public bool state {
+    get { return mState; }
+        set
+        {
+            if (mState == value) return;
+            mState = value;
+            if (OnVariableChange != null)
+                OnVariableChange(mState);
+        }
+    }
+    private bool mState = false;
     public void OnDrag(PointerEventData eventData)
     {
         onDragA?.Invoke();
+        lineA?.Invoke();
     }
+    public delegate void OnVariableChangeDelegate(bool newVal);
+    public event OnVariableChangeDelegate OnVariableChange;
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        onDragA += SetPos;
+        onDragA += SetPos;        
     }
     void SetPos()
     {

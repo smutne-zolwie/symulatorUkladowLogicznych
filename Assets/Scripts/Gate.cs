@@ -5,25 +5,43 @@ using UnityEngine.UI;
 
 public class Gate : MonoBehaviour
 {
+    public List<Elements> elements = new List<Elements>();
     public List<bool> input = new List<bool>();
     public string operations = null;
     public string operations1 = null;
     public string gName;
-    public Color color;
-    Transform tr;
-    Vector3 lastPos;
+    public int maxInput;
+    public Color color;        
     public List<bool> scores = new List<bool>();
-    Button bb;
+    Elements element;    
     // Start is called before the first frame update
 
     void Start()
     {
-        
+        element = GetComponent<Elements>();
+        maxInput = CountMaxInput(operations);
     }    
     Color SetRandomColor()
     {
         Color color = new Color(Random.Range(0, 256), Random.Range(0, 256), Random.Range(0, 256));        
         return color;
+    }
+    public int CountMaxInput(string operations)
+    {
+        int maxInput = 0;
+        string[] operationsT = operations.Split(',');                
+        foreach (string operation in operationsT)
+        {
+            if (operation.Contains("&"))
+            {
+                maxInput += 2;
+            }
+            if (operation.Contains("!"))
+            {
+                maxInput += 1;
+            }
+        }
+        return maxInput;
     }
     List<bool> Calculate(List<bool> input, string operations)
     {
@@ -51,8 +69,7 @@ public class Gate : MonoBehaviour
         {
             //operacje na booleanach
             //numberOfOperatiuons to index ostatniej wykonanej operacji
-            //trzeba sprawdzi� czy to nie jest te� ostatnia operacja
-            //b��d podczas przypisywania          
+            //trzeba sprawdzi� czy to nie jest te� ostatnia operacja                   
             if (operationsT[ee].Contains("&") && ee < numberOfOperations)
             {
                 result.Add(input[ee]);
@@ -69,15 +86,15 @@ public class Gate : MonoBehaviour
                 ee++;
             }
             else if (operationsT[ee].Contains("!") && ee < numberOfOperations)
-            {
+            {                
+                if (0 == result.Count)
+                {
+                    result.Add(input[ee]);                               
+                }
                 result[ee] = !result[ee];
                 ee++;
             }            
             print("i r�wne po:" + i);
-        }
-        foreach (bool resulte in result)
-        {
-            print(resulte);
         }
         return result;
         /*
@@ -101,11 +118,21 @@ public class Gate : MonoBehaviour
     {        
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            scores = Calculate(input, operations);
-            foreach(bool score in scores)
+            input.Clear();
+            int i = 0;
+            foreach(Elements element in elements)
             {
-                print(score);
+                if(input.Count < CountMaxInput(operations))
+                {
+                    input.Add(element.state);
+                    i++;
+                }                
             }
+            scores = Calculate(input, operations);
+            if(scores.Count == 1)
+            {
+                element.state = scores[0];
+            }            
         }       
     }
 }
