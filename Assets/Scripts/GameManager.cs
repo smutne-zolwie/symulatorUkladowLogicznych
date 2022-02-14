@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
     RectTransform canvasUI;
     GameObject inputOptionsPanel;
+    public Button createConnectionB;
     public GameObject linePrefab;
     public List<Gate> gates;
     public GameObject activeInput;
@@ -20,7 +22,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         canvasUI = GameObject.Find("UI").GetComponent<RectTransform>();
-        inputOptionsPanel = GameObject.Find("InputOptionsPanel");
+        inputOptionsPanel = GameObject.Find("InputOptionsPanel");        
         inputOptionsPanel.SetActive(false);        
     }
     
@@ -40,10 +42,19 @@ public class GameManager : MonoBehaviour
         @object.SetActive(false);
     }
 
-    public void OpenOptionsPanel(Vector2 where)
+    public void OpenOptionsPanel(Transform where)
     {
-        inputOptionsPanel.transform.position = where;
+        inputOptionsPanel.transform.position = new Vector2(where.position.x,where.position.y);
         inputOptionsPanel.SetActive(true);
+        if (where.gameObject.CompareTag("Output"))
+        {
+            createConnectionB.enabled = false;
+        }
+        else
+        {
+            createConnectionB.enabled = true;
+        }
+        
     }
     public void CreateConnection()
     {
@@ -51,9 +62,14 @@ public class GameManager : MonoBehaviour
         GameObject newLine = Instantiate(linePrefab, GameObject.Find("Workbench").GetComponent<Transform>());
         newLineS = newLine.GetComponent<LineController>();
         newLineS.points[0] = activeInput.transform;
-        newLineS.points[3] = coursor;
-        GameObject[] gates = GameObject.FindGameObjectsWithTag("Gate");
-        myTransforms = new Transform[gates.Length];
+        newLineS.points[3] = coursor;        
+        List<GameObject> gates = GameObject.FindGameObjectsWithTag("Gate").ToList<GameObject>();
+        List<GameObject> gates2 = GameObject.FindGameObjectsWithTag("Output").ToList<GameObject>();
+        foreach(GameObject gate2 in gates2)
+        {
+            gates.Add(gate2);   
+        }
+        myTransforms = new Transform[gates.Count];
         int i = 0;
         foreach (GameObject gate in gates)
         {
@@ -63,7 +79,7 @@ public class GameManager : MonoBehaviour
     }
     void CheckDistance()
     {
-        if(!newLineS.points[3].gameObject.CompareTag("Gate"))
+        if(!newLineS.points[3].gameObject.CompareTag("Gate") || !newLineS.points[3].gameObject.CompareTag("Output"))
         {
             //get 3 closest characters (to referencePos)
             Transform nClosest = myTransforms.OrderBy(t => (t.position - coursor.position).sqrMagnitude).FirstOrDefault();                       

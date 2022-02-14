@@ -21,7 +21,7 @@ public class Elements : MonoBehaviour, IDragHandler, IPointerClickHandler
                 OnVariableChange(mState);
         }
     }
-    private bool mState = false;
+    public bool mState = false;
     public void OnDrag(PointerEventData eventData)
     {
         onDragA?.Invoke();
@@ -32,7 +32,7 @@ public class Elements : MonoBehaviour, IDragHandler, IPointerClickHandler
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        onDragA += SetPos;        
+        onDragA += SetPos;
     }
     void SetPos()
     {
@@ -54,7 +54,8 @@ public class Elements : MonoBehaviour, IDragHandler, IPointerClickHandler
         if (eventData.button == PointerEventData.InputButton.Right)
         {
             gameManager.activeInput = gameObject;
-            gameManager.OpenOptionsPanel(gameObject.transform.position);
+            gameManager.OpenOptionsPanel(gameObject.transform);
+            
         }
     }
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Gate
   - Input
+  - Output
   layers:
   - Default
   - TransparentFX

@@ -27,12 +27,12 @@ public class LineController : MonoBehaviour
         foreach (Elements element in elements)
         {
             element.lineA += SetLinePosition;
-        }
+        }        
         elements[0].OnVariableChange += OnVariableChangeHandler;
         GiveState();
     }
     public void SetColor()
-    {
+    {   
         if (elements[0].state)
         {
             lr.startColor = tru;
@@ -43,18 +43,27 @@ public class LineController : MonoBehaviour
             lr.startColor = fal;
             lr.endColor = fal;
         }
+        if(elements[1].gameObject.CompareTag("Output"))
+        {
+            Output output = elements[1].gameObject.GetComponent<Output>();
+            output.Switching(elements[0].state);
+        }
     }
     public void GiveState()
-    {
-        SetColor();
+    {        
         if (elements[1].gameObject.CompareTag("Gate"))
         {
             Gate gate = elements[1].gameObject.GetComponent<Gate>();
-            if (gate.maxInput > gate.elements.Count)
+            if (gate.maxInput >= gate.elements.Count)
             {
                 gate.elements.Add(elements[0]);
             }
         }
+        if(elements[1].gameObject.CompareTag("Output"))
+        {
+            elements[1].state = elements[0].state;
+        }
+        SetColor();
     }
     void Start()
     {
