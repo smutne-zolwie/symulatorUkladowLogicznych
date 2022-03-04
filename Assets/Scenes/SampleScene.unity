@@ -1096,7 +1096,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 214323500}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1039388432}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: DestroyElement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &214323500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3646,6 +3658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04b607e5c28bd74a985f95783737189, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeGameObject: {fileID: 0}
   renameButton: {fileID: 179177539}
   inputOptionsPanel: {fileID: 1685870116}
   createOptionsPanel: {fileID: 0}
@@ -7355,7 +7368,7 @@ GameObject:
   - component: {fileID: 2014764083}
   - component: {fileID: 2014764082}
   m_Layer: 5
-  m_Name: Rename
+  m_Name: RenameInPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

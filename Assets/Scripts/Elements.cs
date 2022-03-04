@@ -15,6 +15,7 @@ public class Elements : MonoBehaviour, IDragHandler, IPointerClickHandler
     GameManager gameManager;
     public int maxLine;
     private Gate gate;
+    public LineController lineController;
     public bool state {
     get { return mState; }
         set
@@ -84,8 +85,9 @@ public class Elements : MonoBehaviour, IDragHandler, IPointerClickHandler
         else
         {
             gameManager.createConnectionB.enabled = true;
-            gameManager.activeInput = gameObject;                
+            gameManager.activeInput = gameObject;
         }
+        gameManager.activeGameObject = gameObject;
         gameManager.renameButton.enabled = !eventData.pointerClick.CompareTag("Gate");
     }    
 }

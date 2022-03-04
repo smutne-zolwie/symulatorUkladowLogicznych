@@ -12,6 +12,7 @@ using Vector3 = UnityEngine.Vector3;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject activeGameObject;
     RectTransform canvasUI;
     public Button renameButton;
     public GameObject inputOptionsPanel;
@@ -73,6 +74,7 @@ public class GameManager : MonoBehaviour
     {
         inputOptionsPanel.transform.position = new Vector2(where.position.x - 5, where.position.y + 5);
         inputOptionsPanel.SetActive(true);
+        renameButton.enabled = true;
         if (where.gameObject.CompareTag("Output"))
         {
             createConnectionB.enabled = false;
@@ -152,7 +154,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
     void SetUpCamera()
     {
         height = 2 * Camera.main.orthographicSize;
@@ -197,6 +198,37 @@ public class GameManager : MonoBehaviour
         inputOptionsPanel.transform.SetAsLastSibling();
         renamePanel.transform.SetAsLastSibling();
         newGatePanel.transform.SetAsLastSibling();
+    }
+
+    public void DestroyElement()
+    {
+        
+        LineController line = null;
+        LineController[] lineControllers = GameObject.FindObjectsOfType<LineController>();
+        if (activeGameObject.CompareTag("Input") || activeGameObject.CompareTag("Gate"))
+        {
+            if (activeElement.GetComponent<Elements>().lineController != null)
+            {
+                line = activeElement.GetComponent<Elements>().lineController;
+                if (line.elements[1].GetComponent<Output>() != null)
+                {
+                    line.elements[1].GetComponent<Output>().used = false;
+                }
+                Destroy(activeElement.GetComponent<Elements>().lineController.gameObject);
+            }
+            foreach (LineController lineController in lineControllers)
+            {
+                if (lineController.elements[1] == activeElement) 
+                { 
+                    print("no sth");
+                    Destroy(lineController.gameObject);
+                    Destroy(lineController);
+                }
+            }
+        }
+        Destroy(activeElement.gameObject);
+        print("sth");
+        CloseSelf(inputOptionsPanel);
     }
     #region NewGate
 

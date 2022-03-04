@@ -1,16 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class LineController : MonoBehaviour
+public class LineController : MonoBehaviour, IPointerClickHandler
 {
     public LineRenderer lr;
     public Transform[] points = new Transform[4];
     public Elements[] elements = new Elements[2];
+    private GameManager GameManager;
     public bool connected = false;
     Color tru = new Color(255 / 255f, 0 / 255f, 0 / 255f, 255 / 255f);
     Color fal = new Color(168 / 255f, 166 / 255f, 158 / 255f, 255 / 255f);
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(eventData.button != PointerEventData.InputButton.Right)return;
+        GameManager.OpenOptionsPanel(GameManager.coursor.transform);
+        GameManager.createConnectionB.enabled = false;
+        GameManager.renameButton.enabled = false;
+        GameManager.activeGameObject = gameObject;
+    }
     public void SetUpLine(Transform[] points)
     {
         lr = GetComponent<LineRenderer>();
@@ -27,12 +39,13 @@ public class LineController : MonoBehaviour
         foreach (Elements element in elements)
         {
             element.lineA += SetLinePosition;
+            element.lineController = this;
         }        
         elements[0].OnVariableChange += OnVariableChangeHandler;
         GiveState();
     }
     public void SetColor()
-    {   
+    {
         if (elements[0].state)
         {
             lr.startColor = tru;
@@ -83,6 +96,7 @@ public class LineController : MonoBehaviour
     void Start()
     {
         SetUpLine(points);
+        GameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
     private void Update()
     {
@@ -103,6 +117,10 @@ public class LineController : MonoBehaviour
     }
     public void OnVariableChangeHandler(bool newVal)
     {
+        if (lr == null)
+        {
+            return;
+        }
         SetColor();
         UpdateState();
     }
