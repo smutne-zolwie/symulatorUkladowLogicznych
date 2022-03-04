@@ -6,7 +6,7 @@ public class LineController : MonoBehaviour
 {
     public LineRenderer lr;
     public Transform[] points = new Transform[4];
-    Elements[] elements = new Elements[2];
+    public Elements[] elements = new Elements[2];
     public bool connected = false;
     Color tru = new Color(255 / 255f, 0 / 255f, 0 / 255f, 255 / 255f);
     Color fal = new Color(168 / 255f, 166 / 255f, 158 / 255f, 255 / 255f);
@@ -54,12 +54,27 @@ public class LineController : MonoBehaviour
         if (elements[1].gameObject.CompareTag("Gate"))
         {
             Gate gate = elements[1].gameObject.GetComponent<Gate>();
-            if (gate.maxInput >= gate.elements.Count)
+            if (gate.maxInput > gate.elements.Count)
             {
                 gate.elements.Add(elements[0]);
+                gate.SetUpCalculatuion();
             }
         }
         if(elements[1].gameObject.CompareTag("Output"))
+        {
+            elements[1].state = elements[0].state;
+        }
+        SetColor();
+    }
+
+    public void UpdateState()
+    {
+        if (elements[1].gameObject.CompareTag("Gate"))
+        {
+            Gate gate = elements[1].gameObject.GetComponent<Gate>();
+            gate.SetUpCalculatuion();
+        }
+        if (elements[1].gameObject.CompareTag("Output"))
         {
             elements[1].state = elements[0].state;
         }
@@ -74,7 +89,7 @@ public class LineController : MonoBehaviour
         if (!connected)
             SetLinePosition();
     }
-    void SetLinePosition()
+    public void SetLinePosition()
     {
         if (points[0] != null && points[3] != null)
         {
@@ -89,5 +104,6 @@ public class LineController : MonoBehaviour
     public void OnVariableChangeHandler(bool newVal)
     {
         SetColor();
+        UpdateState();
     }
 }

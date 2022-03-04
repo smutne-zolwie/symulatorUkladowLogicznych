@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class Output : MonoBehaviour
 {
     Elements element;
-    Image outputI;    
-
+    Image outputI;
+    public bool used = false;
     void Start()
     {
         outputI = GetComponent<Image>();

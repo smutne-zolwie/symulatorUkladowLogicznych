@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.EventSystems;
-
+using UnityEngine.UIElements;
+using TMPro;
 public class Elements : MonoBehaviour, IDragHandler, IPointerClickHandler
 {
     Action onDragA;
     public Action lineA;
     float positionx;
     float positiony;
+    public TextMeshProUGUI elementName;
     GameManager gameManager;
+    public int maxLine;
+    private Gate gate;
     public bool state {
     get { return mState; }
         set
@@ -31,8 +35,28 @@ public class Elements : MonoBehaviour, IDragHandler, IPointerClickHandler
     public event OnVariableChangeDelegate OnVariableChange;
     void Start()
     {
+        
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         onDragA += SetPos;
+        if (gameObject.CompareTag("Gate"))
+        {
+            try
+            {
+                gate = gameObject.GetComponent<Gate>();
+                maxLine = gate.maxInput;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }else if (gameObject.CompareTag("Input"))
+        {
+            maxLine = 1;
+        }else if (gameObject.CompareTag("Output"))
+        {
+            maxLine = 1;
+        }
     }
     void SetPos()
     {
@@ -46,16 +70,22 @@ public class Elements : MonoBehaviour, IDragHandler, IPointerClickHandler
             positionx *= 20;
             positiony *= 20;
             gameObject.transform.position = new Vector3(positionx, positiony, 0);                   
-
         }
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            gameManager.activeInput = gameObject;
-            gameManager.OpenOptionsPanel(gameObject.transform);
-            
+        if (eventData.button != PointerEventData.InputButton.Right) return;
+        gameManager.activeElement = gameObject.GetComponent<Elements>();
+        gameManager.OpenOptionsPanel(gameManager.coursor.transform);
+        if (eventData.pointerClick.CompareTag("Output"))
+        {                
+            gameManager.createConnectionB.enabled = false;                             
         }
-    }
+        else
+        {
+            gameManager.createConnectionB.enabled = true;
+            gameManager.activeInput = gameObject;                
+        }
+        gameManager.renameButton.enabled = !eventData.pointerClick.CompareTag("Gate");
+    }    
 }

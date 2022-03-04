@@ -16,16 +16,14 @@ public class Gate : MonoBehaviour
     Elements element;    
     // Start is called before the first frame update
 
+    void Awake()
+    {
+        maxInput = CountMaxInput(operations);
+    }
     void Start()
     {
         element = GetComponent<Elements>();
-        maxInput = CountMaxInput(operations);
     }    
-    Color SetRandomColor()
-    {
-        Color color = new Color(Random.Range(0, 256), Random.Range(0, 256), Random.Range(0, 256));        
-        return color;
-    }
     public int CountMaxInput(string operations)
     {
         int maxInput = 0;
@@ -49,10 +47,6 @@ public class Gate : MonoBehaviour
 
 
         string[] operationsT = operations.Split(',');
-        foreach(string operation in operationsT)
-        {
-            print(operation);
-        }
         int numberOfOperations = input.Count;
         print(input.Count);
         foreach(string operation in operationsT)
@@ -74,10 +68,7 @@ public class Gate : MonoBehaviour
             {
                 result.Add(input[ee]);
                 int ii = i + 1;
-                print("ii r�wne: " + ii);
-                print("i r�wne: " + i);
                 result[ee] = input[i] & input[ii];
-                print(input[i] +" "+ input[ii] +" "+ result[ee]);
                 i++;
                 if (operationsT[ee].Contains("!"))
                 {
@@ -114,25 +105,22 @@ public class Gate : MonoBehaviour
         return result;
         */
     }
-    void Update()
-    {        
-        if (Input.GetKeyDown(KeyCode.Space))
+    public void SetUpCalculatuion()
+    {
+        input.Clear();
+        int i = 0;
+        foreach (Elements element in elements)
         {
-            input.Clear();
-            int i = 0;
-            foreach(Elements element in elements)
+            if (input.Count < CountMaxInput(operations))
             {
-                if(input.Count < CountMaxInput(operations))
-                {
-                    input.Add(element.state);
-                    i++;
-                }                
+                input.Add(element.state);
+                i++;
             }
-            scores = Calculate(input, operations);
-            if(scores.Count == 1)
-            {
-                element.state = scores[0];
-            }            
-        }       
+        }
+        scores = Calculate(input, operations);
+        if (scores.Count == 1)
+        {
+            element.state = scores[0];
+        }
     }
 }

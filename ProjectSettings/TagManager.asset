@@ -7,6 +7,9 @@ TagManager:
   - Gate
   - Input
   - Output
+  - Workbench
+  - OptionsPanel
+  - Line
   layers:
   - Default
   - TransparentFX
