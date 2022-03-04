@@ -225,6 +225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elementName: {fileID: 1144237338627915345}
+  maxLine: 0
   mState: 0
 --- !u!114 &1144237338680888887
 MonoBehaviour:
@@ -238,3 +239,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 986615f6b2509ca46ab054ce7baa7ab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  used: 0

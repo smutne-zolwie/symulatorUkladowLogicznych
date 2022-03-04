@@ -243,29 +243,20 @@ public class GameManager : MonoBehaviour
         } //line controllery ktore maja wartosci elements czyli podczepionych elementow
         foreach (LineController controller in lineControllers)
         {
-            
-            /*
             foreach (Elements controllerElement in controller.elements)
             {
+
                 if (!controllerElement.CompareTag("Input") && !controllerElement.CompareTag("Output"))
                 {
                     Vector2 pos = controllerElement.transform.position;
+                    controllerElement.transform.localScale = new Vector3(0.2f, 0.2f);
+                    controller.lr.endWidth = 1;
+                    controller.lr.startWidth = 1;
                     controllerElement.transform.SetParent(newGate.transform);
                     controller.transform.SetParent(newGate.transform);
-                    controllerElement.transform.localScale = new Vector3(0.2f, 0.2f);
                     controller.lr.useWorldSpace = false;
-                    controllerElement.transform.position = new Vector2(pos.x, pos.y);
+                    controllerElement.transform.position = new Vector2(pos.x / 5, pos.y / 5);
                     print("rest");
-                    /*if (controller.elements[0].CompareTag("Input"))
-                    {
-                        controllerElement.transform.position = new Vector2(-36, 0);
-                        print("input");
-                    }
-                    else if (controller.elements[1].CompareTag("Output"))
-                    {
-                        controllerElement.transform.position = new Vector2(36, 0);
-                        print("output");
-                    }
                     controller.SetLinePosition();
                     //controllerElement.gameObject.GetComponent<Image>().enabled = false;
                     print("setting new parent");
@@ -276,8 +267,8 @@ public class GameManager : MonoBehaviour
                     Destroy(controller.gameObject);
                     print("destroyin");
                 }
-                
-            }*/
+
+            }
         }
         //set up making connection
     }
