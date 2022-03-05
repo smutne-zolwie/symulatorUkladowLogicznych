@@ -5,15 +5,41 @@ using UnityEngine.UI;
 
 public class Gate : MonoBehaviour
 {
+    public List<Elements> elements = new List<Elements>();
     public List<bool> input = new List<bool>();
     public string operations = null;
     public string operations1 = null;
+    public string gName;
+    public int maxInput;
+    public Color color;        
     public List<bool> scores = new List<bool>();
-    Button bb;
+    Elements element;    
     // Start is called before the first frame update
+
+    void Awake()
+    {
+        maxInput = CountMaxInput(operations);
+    }
     void Start()
-    {  
-        
+    {
+        element = GetComponent<Elements>();
+    }    
+    public int CountMaxInput(string operations)
+    {
+        int maxInput = 0;
+        string[] operationsT = operations.Split(',');                
+        foreach (string operation in operationsT)
+        {
+            if (operation.Contains("&"))
+            {
+                maxInput += 2;
+            }
+            if (operation.Contains("!"))
+            {
+                maxInput += 1;
+            }
+        }
+        return maxInput;
     }
     List<bool> Calculate(List<bool> input, string operations)
     {
@@ -21,18 +47,14 @@ public class Gate : MonoBehaviour
 
 
         string[] operationsT = operations.Split(',');
-        foreach(string operation in operationsT)
-        {
-            print(operation);
-        }
         int numberOfOperations = input.Count;
         print(input.Count);
         foreach(string operation in operationsT)
         {
-            if (operation.Contains("&") && numberOfOperations>(0.5f * input.Count))// liczba operacji nie mo¿e byæ mniejsza od po³owy inputu gdy¿ to nie mo¿liwe po co robiæ input jak siê z niego nie skorzysta
+            if (operation.Contains("&") && numberOfOperations>(0.5f * input.Count))// liczba operacji nie moï¿½e byï¿½ mniejsza od poï¿½owy inputu gdyï¿½ to nie moï¿½liwe po co robiï¿½ input jak siï¿½ z niego nie skorzysta
             {
-                numberOfOperations--; // podstawowo jest to liczba inputu, operacja & potrzebuje dwóch inputów a ! jeden input wiêc ka¿de & zmniejszy liczbê mo¿liwych operacji o 1 a ! nic nie zmieni
-                //dla bramki koñcowej potrzebne s¹ znaczniki ¿eby wykonywa³o operacje na mniejszej liczbie bramek, 
+                numberOfOperations--; // podstawowo jest to liczba inputu, operacja & potrzebuje dwï¿½ch inputï¿½w a ! jeden input wiÄ™c kaÅ¼de & zmniejszy liczbï¿½ moï¿½liwych operacji o 1 a ! nic nie zmieni
+                //dla bramki koï¿½cowej potrzebne sï¿½ znaczniki ï¿½eby wykonywaï¿½o operacje na mniejszej liczbie bramek, 
             }
         }
         print(numberOfOperations);
@@ -41,16 +63,12 @@ public class Gate : MonoBehaviour
         {
             //operacje na booleanach
             //numberOfOperatiuons to index ostatniej wykonanej operacji
-            //trzeba sprawdziæ czy to nie jest te¿ ostatnia operacja
-            //b³¹d podczas przypisywania          
+            //trzeba sprawdziï¿½ czy to nie jest teï¿½ ostatnia operacja                   
             if (operationsT[ee].Contains("&") && ee < numberOfOperations)
             {
                 result.Add(input[ee]);
                 int ii = i + 1;
-                print("ii równe: " + ii);
-                print("i równe: " + i);
                 result[ee] = input[i] & input[ii];
-                print(input[i] +" "+ input[ii] +" "+ result[ee]);
                 i++;
                 if (operationsT[ee].Contains("!"))
                 {
@@ -59,15 +77,15 @@ public class Gate : MonoBehaviour
                 ee++;
             }
             else if (operationsT[ee].Contains("!") && ee < numberOfOperations)
-            {
+            {                
+                if (0 == result.Count)
+                {
+                    result.Add(input[ee]);                               
+                }
                 result[ee] = !result[ee];
                 ee++;
             }            
-            print("i równe po:" + i);
-        }
-        foreach (bool resulte in result)
-        {
-            print(resulte);
+            print("i rï¿½wne po:" + i);
         }
         return result;
         /*
@@ -87,15 +105,22 @@ public class Gate : MonoBehaviour
         return result;
         */
     }
-    void Update()
+    public void SetUpCalculatuion()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        input.Clear();
+        int i = 0;
+        foreach (Elements element in elements)
         {
-            scores = Calculate(input, operations);
-            foreach(bool score in scores)
+            if (input.Count < CountMaxInput(operations))
             {
-                print(score);
+                input.Add(element.state);
+                i++;
             }
-        }       
+        }
+        scores = Calculate(input, operations);
+        if (scores.Count == 1)
+        {
+            element.state = scores[0];
+        }
     }
 }

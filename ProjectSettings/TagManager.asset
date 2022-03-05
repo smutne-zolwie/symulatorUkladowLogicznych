@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Gate
+  - Input
+  - Output
+  - Workbench
+  - OptionsPanel
+  - Line
   layers:
   - Default
   - TransparentFX
