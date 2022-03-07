@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuUIManager : MonoBehaviour
 {
     public GameObject ProjectPrefab;
     public GameObject Content;
-
     private GameObject NewProjectPanel;
     // Start is called before the first frame update
     void Awake()
@@ -99,8 +100,38 @@ public class MenuUIManager : MonoBehaviour
         panel.SetActive(true);
     }
 
+    public void Open(GameObject buttonGameObject = null)
+    { 
+        MenuManager.Instance.activeProject = buttonGameObject.transform.parent.GetComponentInChildren<TMP_Text>().text;
+
+    }
     public void ClosePanel(GameObject panel)
     {
         panel.SetActive(false);
     }
+
+    /*void Load()
+    {
+        if (index > 0)
+        {
+            for (int i = index; i < MenuManager.Instance.ProjectList.Count; i++)
+            {
+                RectTransform transform = MenuManager.Instance.ProjectList[i].GetComponent<RectTransform>();
+                RectTransform lasTransform = MenuManager.Instance.ProjectList[i - 1]
+                    .GetComponent<RectTransform>();
+                transform.anchorMax = new Vector2(0.98f, lasTransform.anchorMin.y);
+                transform.anchorMin = new Vector2(0.02f, transform.anchorMax.y - 0.02f);
+                transform.offsetMax = new Vector2(0, 0);
+                transform.offsetMin = new Vector2(0, 0);
+            }
+        }
+        else if (index == 0 && MenuManager.Instance.ProjectList.Count >= 1)
+        {
+            RectTransform transform = MenuManager.Instance.ProjectList[index].GetComponent<RectTransform>();
+            transform.anchorMax = new Vector2(0.98f, 0.99f);
+            transform.anchorMin = new Vector2(0.02f, 0.97f);
+            transform.offsetMax = new Vector2(0, 0);
+            transform.offsetMin = new Vector2(0, 0);
+        }
+    }*/
 }

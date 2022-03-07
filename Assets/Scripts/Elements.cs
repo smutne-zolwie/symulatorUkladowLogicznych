@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 using TMPro;
 public class Elements : MonoBehaviour, IDragHandler, IPointerClickHandler
 {
+    public bool isStatic = false;
     Action onDragA;
     public Action lineA;
     float positionx;
@@ -36,20 +37,24 @@ public class Elements : MonoBehaviour, IDragHandler, IPointerClickHandler
     public event OnVariableChangeDelegate OnVariableChange;
     void Start()
     {
-        
+        if (gameObject.transform.position.x % 10 != 0 || gameObject.transform.position.y % 10 != 0)
+        {
+            positionx = (gameObject.transform.position.x) / 20;
+            positiony = (gameObject.transform.position.y) / 20;
+            positionx = (int)Math.Round(positionx, 0);
+            positiony = (int)Math.Round(positiony, 0);
+            positionx *= 20;
+            positiony *= 20;
+            gameObject.transform.position = new Vector3(positionx, positiony, 0);
+        }
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         onDragA += SetPos;
         if (gameObject.CompareTag("Gate"))
         {
-            try
+            if (gameObject.TryGetComponent(out Gate gate))
             {
                 gate = gameObject.GetComponent<Gate>();
                 maxLine = gate.maxInput;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
             }
         }else if (gameObject.CompareTag("Input"))
         {
@@ -61,21 +66,24 @@ public class Elements : MonoBehaviour, IDragHandler, IPointerClickHandler
     }
     void SetPos()
     {
-        gameObject.transform.position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (gameObject.transform.position.x % 10 != 0 || gameObject.transform.position.y % 10 != 0)
+        if (!isStatic)
         {
-            positionx = (gameObject.transform.position.x) / 20;
-            positiony = (gameObject.transform.position.y) / 20;
-            positionx = (int)Math.Round(positionx, 0);
-            positiony = (int)Math.Round(positiony, 0);
-            positionx *= 20;
-            positiony *= 20;
-            gameObject.transform.position = new Vector3(positionx, positiony, 0);                   
+            gameObject.transform.position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (gameObject.transform.position.x % 10 != 0 || gameObject.transform.position.y % 10 != 0)
+            {
+                positionx = (gameObject.transform.position.x) / 20;
+                positiony = (gameObject.transform.position.y) / 20;
+                positionx = (int)Math.Round(positionx, 0);
+                positiony = (int)Math.Round(positiony, 0);
+                positionx *= 20;
+                positiony *= 20;
+                gameObject.transform.position = new Vector3(positionx, positiony, 0);
+            }
         }
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button != PointerEventData.InputButton.Right) return;
+        if (eventData.button != PointerEventData.InputButton.Right) return;//extra warunek
         gameManager.activeElement = gameObject.GetComponent<Elements>();
         gameManager.OpenOptionsPanel(gameManager.coursor.transform);
         if (eventData.pointerClick.CompareTag("Output"))
