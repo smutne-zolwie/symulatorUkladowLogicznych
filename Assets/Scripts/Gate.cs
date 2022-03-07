@@ -27,19 +27,28 @@ public class Gate : MonoBehaviour
     public int CountMaxInput(string operations)
     {
         int maxInput = 0;
-        string[] operationsT = operations.Split(',');                
-        foreach (string operation in operationsT)
+        if (operations != null)
         {
-            if (operation.Contains("&"))
+            string[] operationsT = operations.Split(',');
+            foreach (string operation in operationsT)
             {
-                maxInput += 2;
+                if (operation.Contains("&"))
+                {
+                    maxInput += 2;
+                }
+
+                if (operation.Contains("!"))
+                {
+                    maxInput += 1;
+                }
             }
-            if (operation.Contains("!"))
-            {
-                maxInput += 1;
-            }
+            return maxInput;
         }
-        return maxInput;
+        else
+        {
+            return 1;
+        }
+
     }
     List<bool> Calculate(List<bool> input, string operations)
     {
